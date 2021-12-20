@@ -9,7 +9,10 @@
       <div class="container">
         <div class="row">
           <div class="col-md">
-            <h5>Prefixos <span class="badge bg-info text-dark">{{ prefixes.length}}</span></h5>
+            <h5>
+              Prefixos
+              <span class="badge bg-info icons">{{ prefixes.length }}</span>
+            </h5>
             <div class="card">
               <div class="card-body">
                 <ul class="list-group">
@@ -18,16 +21,41 @@
                     v-for="prefixe in prefixes"
                     :key="prefixe"
                   >
-                    {{ prefixe }}
+                  <div class="row">
+                    <div class="col-md">
+                      {{ prefixe }}
+                    </div>
+                    <div class="col-md text-end">
+                    <button class="btn btn-info" v-on:click=deletePrefixe(prefixe)> <span class="bi bi-trash icons"></span></button>
+
+                    </div>
+                  </div>
                   </li>
+
                 </ul>
-                <br>
-                <input type="text" class="form-control" placeholder="Digite o prefixo"/>
+                <br />
+                <div class="input-group">
+                  <input
+                    v-on:keyup.enter="addPrefixe(prefixe)"
+                    type="text"
+                    v-model="prefixe"
+                    class="form-control"
+                    placeholder="Digite o prefixo"
+                  />
+                  <div class="input-group-append">
+                    <div class="btn btn-info" v-on:click="addPrefixe(prefixe)">
+                      <span class="bi bi-plus icons"></span>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
           <div class="col-md">
-            <h5>SUfixos <span class="badge bg-info text-dark"> {{ sufixes.length }}</span></h5>
+            <h5>
+              SUfixos
+              <span class="badge bg-info icons"> {{ sufixes.length }}</span>
+            </h5>
             <div class="card">
               <div class="card-body">
                 <ul class="list-group">
@@ -36,23 +64,59 @@
                     v-for="sufixe in sufixes"
                     :key="sufixe"
                   >
-                    {{ sufixe }}
+                  <div class="row">
+                    <div class="col-md">
+                      {{ sufixe }}
+                    </div>
+                    <div class="col-md text-end">
+                      <button class="btn btn-info" v-on:click=deleteSufixe(sufixe)><span class="bi bi-trash icons"></span></button>
+                    </div>
+                  </div>
                   </li>
                 </ul>
-                <br>
-                <input class="form-control" type="text" placeholder="Digite o sufixe"/>
+                <br />
+                <div class="input-group">
+                  <input
+                    v-on:keyup.enter="addSufixe(sufixe)"
+                    class="form-control"
+                    v-model="sufixe"
+                    type="text"
+                    placeholder="Digite o sufixe"
+                  />
+                  <div class="input-group-append">
+                    <div class="btn btn-info" v-on:click="addSufixe(sufixe)">
+                      <span class="bi bi-plus icons"></span>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
-        <br>
-        <h5>Dominios <span class="badge bg-info text-dark"> {{ domains.length }}</span></h5>
+        <br />
+        <h5>
+          Dominios
+          <span class="badge bg-info icons"> {{ domains.length }}</span>
+        </h5>
         <div class="card">
           <div class="card-body">
             <ul class="list-group">
-              <li class="list-group-item" v-for="domain in domains" :key="domain"> {{ domain }}</li>
+              <li
+                class="list-group-item"
+                v-for="domain in domains"
+                :key="domain"
+              >
+               
+                <div class="row">
+                  <div class="col-md">
+                     {{ domain }}
+                  </div>
+                  <div class="col-md text-end">
+                    <button class="btn btn-info"><span class="bi bi-cart-plus icons"></span></button>
+                  </div>
+                </div>
+              </li>
             </ul>
-
           </div>
         </div>
       </div>
@@ -66,10 +130,53 @@ export default {
   name: "App",
   data: function () {
     return {
-      prefixes: ["Air", "Jet", 'Flight'],
-      sufixes: ['Hub', 'Station', 'Mart'],
-      domains: ['AirHub', 'AirStation', 'AirMart', 'JetHut', 'JetStation', 'JetMart', 'FlightHub', 'FlightStation', 'FlightMart']
+      prefixe: '',
+      sufixe: '',
+      prefixes: ["Air", "Jet", "Flight"],
+      sufixes: ["Hub", "Station", "Mart"],
+      domains: [
+        "AirHub",
+        "AirStation",
+        "AirMart",
+        "JetHut",
+        "JetStation",
+        "JetMart",
+        "FlightHub",
+        "FlightStation",
+        "FlightMart",
+      ],
     };
+  },
+  methods: {
+
+    addPrefixe(prefixe) {
+      this.prefixes.push(prefixe);
+      this.prefixe = '';
+      this.generate();
+    },
+    deletePrefixe(prefixe){
+      this.prefixes.splice(this.prefixes.indexOf(prefixe), 1);
+      this.generate();
+    },
+
+    addSufixe(sufixe) {
+      this.sufixes.push(sufixe);
+      this.sufixe = '';
+      this.generate();
+    },
+    deleteSufixe(sufixe) {
+      this.sufixes.splice(this.sufixes.indexOf(sufixe), 1);
+      this.generate();
+    },
+
+    generate(){
+      this.domains = [];
+      for(const prefixe of this.prefixes) {
+        for(const sufixe of this.sufixes) {
+          this.domains.push(prefixe + sufixe)
+        }
+      }
+    }
   },
 };
 </script>
@@ -83,5 +190,9 @@ export default {
   background-color: #f1f1f1;
   padding-top: 30px;
   padding-bottom: 30px;
+}
+.icons {
+  color: #fff;
+  font-size: 0.95rem;
 }
 </style>
