@@ -21,17 +21,20 @@
                     v-for="prefixe in prefixes"
                     :key="prefixe"
                   >
-                  <div class="row">
-                    <div class="col-md">
-                      {{ prefixe }}
+                    <div class="row">
+                      <div class="col-md">
+                        {{ prefixe }}
+                      </div>
+                      <div class="col-md text-end">
+                        <button
+                          class="btn btn-info"
+                          @click="deletePrefixe(prefixe)"
+                        >
+                          <span class="bi bi-trash icons"></span>
+                        </button>
+                      </div>
                     </div>
-                    <div class="col-md text-end">
-                    <button class="btn btn-info" v-on:click=deletePrefixe(prefixe)> <span class="bi bi-trash icons"></span></button>
-
-                    </div>
-                  </div>
                   </li>
-
                 </ul>
                 <br />
                 <div class="input-group">
@@ -43,7 +46,7 @@
                     placeholder="Digite o prefixo"
                   />
                   <div class="input-group-append">
-                    <div class="btn btn-info" v-on:click="addPrefixe(prefixe)">
+                    <div class="btn btn-info" @click="addPrefixe(prefixe)">
                       <span class="bi bi-plus icons"></span>
                     </div>
                   </div>
@@ -64,14 +67,19 @@
                     v-for="sufixe in sufixes"
                     :key="sufixe"
                   >
-                  <div class="row">
-                    <div class="col-md">
-                      {{ sufixe }}
+                    <div class="row">
+                      <div class="col-md">
+                        {{ sufixe }}
+                      </div>
+                      <div class="col-md text-end">
+                        <button
+                          class="btn btn-info"
+                          @click="deleteSufixe(sufixe)"
+                        >
+                          <span class="bi bi-trash icons"></span>
+                        </button>
+                      </div>
                     </div>
-                    <div class="col-md text-end">
-                      <button class="btn btn-info" v-on:click=deleteSufixe(sufixe)><span class="bi bi-trash icons"></span></button>
-                    </div>
-                  </div>
                   </li>
                 </ul>
                 <br />
@@ -84,7 +92,7 @@
                     placeholder="Digite o sufixe"
                   />
                   <div class="input-group-append">
-                    <div class="btn btn-info" v-on:click="addSufixe(sufixe)">
+                    <div class="btn btn-info" @click="addSufixe(sufixe)">
                       <span class="bi bi-plus icons"></span>
                     </div>
                   </div>
@@ -104,15 +112,16 @@
               <li
                 class="list-group-item"
                 v-for="domain in domains"
-                :key="domain"
+                :key="domain.name"
               >
-               
                 <div class="row">
                   <div class="col-md">
-                     {{ domain }}
+                    {{ domain.name }}
                   </div>
                   <div class="col-md text-end">
-                    <button class="btn btn-info"><span class="bi bi-cart-plus icons"></span></button>
+                    <a class="btn btn-info" :href= domain.checkout target="_blank">
+                      <span class="bi bi-cart-plus icons"></span>
+                    </a>
                   </div>
                 </div>
               </li>
@@ -128,55 +137,53 @@
 import bootstrap from "bootstrap/dist/css/bootstrap.css";
 export default {
   name: "App",
-  data: function () {
+  data() {
     return {
-      prefixe: '',
-      sufixe: '',
+      prefixe: "",
+      sufixe: "",
       prefixes: ["Air", "Jet", "Flight"],
       sufixes: ["Hub", "Station", "Mart"],
-      domains: [
-        "AirHub",
-        "AirStation",
-        "AirMart",
-        "JetHut",
-        "JetStation",
-        "JetMart",
-        "FlightHub",
-        "FlightStation",
-        "FlightMart",
-      ],
     };
   },
   methods: {
-
     addPrefixe(prefixe) {
-      this.prefixes.push(prefixe);
-      this.prefixe = '';
-      this.generate();
+      if (prefixe != "") {
+        this.prefixes.push(prefixe);
+        this.prefixe = "";
+      }
     },
-    deletePrefixe(prefixe){
+
+    deletePrefixe(prefixe) {
       this.prefixes.splice(this.prefixes.indexOf(prefixe), 1);
-      this.generate();
     },
 
     addSufixe(sufixe) {
-      this.sufixes.push(sufixe);
-      this.sufixe = '';
-      this.generate();
+      if (sufixe != "") {
+        this.sufixes.push(sufixe);
+        this.sufixe = "";
+      }
     },
     deleteSufixe(sufixe) {
       this.sufixes.splice(this.sufixes.indexOf(sufixe), 1);
-      this.generate();
     },
+  },
 
-    generate(){
-      this.domains = [];
-      for(const prefixe of this.prefixes) {
-        for(const sufixe of this.sufixes) {
-          this.domains.push(prefixe + sufixe)
+  computed: {
+    domains() {
+      const domains = [];
+      for (const prefixe of this.prefixes) {
+        for (const sufixe of this.sufixes) {
+          const name = prefixe + sufixe;
+          const url = name.toLowerCase();
+          const checkout = `https://checkout.hostgator.com.br/?a=add&sld=${url}&tld=.com.br&domaincycle=2&titanDomain=1&titanSource=1`;
+          domains.push({
+            name,
+            checkout
+          });
         }
       }
-    }
+      return domains;
+    },
   },
 };
 </script>
