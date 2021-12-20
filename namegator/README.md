@@ -1,4 +1,5 @@
-# namegator
+# Namegator
+> __Namegator__ é um sistema gerador de nomes com base em __prefixes__ e __sufixes__. Pode ser usando para gerar nonmes de dominios com por exemplo.
 
 ## Project setup
 ```
@@ -20,5 +21,9 @@ npm run build
 npm run lint
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### Informações adicionais
+<span> Esse sistema foi implementado do curso de VueJS do __Rodrigo Branas__
+ no youtube</span>
+<br>
+
+<https://www.youtube.com/channel/UCkqOofjb7nl6V8vXrIbGtiQ>
