@@ -1,4 +1,5 @@
-# Namegator
+<img alt="screenshot" src="./public/img/screenshot.png" title="screenshot"/>
+
 > __Namegator__ é um sistema gerador de nomes com base em __prefixes__ e __sufixes__. Pode ser usando para gerar nomes de dominios com por exemplo.
 
 ## Project setup
