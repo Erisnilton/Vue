@@ -1,0 +1,3 @@
+[submodule "financeiro"]
+	path = financeiro
+	url = git@github.com:erisnilton/financeiro.git
